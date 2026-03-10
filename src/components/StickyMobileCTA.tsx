@@ -44,7 +44,7 @@ export const StickyMobileCTA = ({ onCTAClick }: StickyMobileCTAProps) => {
           </div>
           
           <div className="text-[10px] font-black text-red-600 animate-pulse">
-             — 7 Din Mein Offer Khatam ⏳
+             7 Din Mein Offer Khatam 
           </div>
         </div>
 
