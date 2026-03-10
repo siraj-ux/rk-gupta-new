@@ -1,203 +1,129 @@
-import { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
 import {
+  ArrowRight,
+  ShieldCheck,
   Calendar,
   Clock,
-  Globe,
-  Video,
-  Zap,
-  AlertTriangle,
-  X,
+  BookOpen,
+  Zap
 } from 'lucide-react';
-import { useUTMParams } from '@/hooks/useUTMParams';
-import { useFacebookPixel } from '@/hooks/useFacebookPixel';
 
-const REGISTRATION_RAZORPAY_URL = 'https://pages.razorpay.com/pl_SAAxQmR7a5jwEr/view'; 
-const EBOOKS_RAZORPAY_URL = 'https://pages.razorpay.com/pl_SAAygaG1atU5Ub/view';       
+interface FinalCTASectionProps {
+  onCTAClick?: () => void;
+}
 
-const MiniTimer = ({ initialSeconds = 900 }) => {
-  const [seconds, setSeconds] = useState(initialSeconds);
-  useEffect(() => {
-    if (seconds <= 0) return;
-    const timer = setInterval(() => setSeconds((s) => s - 1), 1000);
-    return () => clearInterval(timer);
-  }, [seconds]);
+export const FinalCTASection = ({ onCTAClick }: FinalCTASectionProps) => {
 
-  const mm = String(Math.floor(seconds / 60)).padStart(2, '0');
-  const ss = String(seconds % 60).padStart(2, '0');
-
-  return (
-    <div className="flex items-center gap-2 font-mono text-2xl font-black text-red-600">
-      <Clock className="h-6 w-6 animate-pulse" />
-      {mm}:{ss}
-    </div>
-  );
-};
-
-export const HeroSection = () => {
-  useFacebookPixel();
-  const utmParams = useUTMParams(); 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [addEbook, setAddEbook] = useState(false);
-
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', city: '' });
-  const [sheetData, setSheetData] = useState({ date: 'Loading...', time: 'Loading...' });
-
-  useEffect(() => {
-    fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTNbThNq5PaLsO8hgj4EIb5CTjMp8-kOOI9jpi18eTL-p9v5vh-QeOSOeqaozauJOAy2fs5mOQIhk4G/pub?output=csv')
-      .then((res) => res.text())
-      .then((text) => {
-        const rows = text.trim().split('\n');
-        const values = rows[1].split(',');
-        setSheetData({ date: values[0] || 'TBA', time: values[1] || 'TBA' });
-      }).catch((err) => console.error('CSV fetch error:', err));
-  }, []);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (isSubmitting) return;
-    setIsSubmitting(true);
-    const finalBaseUrl = addEbook ? EBOOKS_RAZORPAY_URL : REGISTRATION_RAZORPAY_URL;
-    window.location.href = `${finalBaseUrl}?${new URLSearchParams(formData).toString()}`;
+  const scrollToForm = () => {
+    if (onCTAClick) {
+      onCTAClick();
+      return;
+    }
+    const el = document.getElementById('register');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   };
 
   return (
-    <section className="relative min-h-screen bg-[#00171f] text-white overflow-hidden">
-      <style dangerouslySetInnerHTML={{ __html: `@keyframes soft-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } } .animate-soft-blink { animation: soft-blink 1.5s infinite; }`}} />
-      <div className="absolute inset-0 bg-cover bg-center opacity-10" style={{ backgroundImage: "url('/bg.webp')" }} />
+    /* ADDED LARGE VERTICAL PADDING (py-24 md:py-36) */
+    <section className="py-24 md:py-36 bg-black text-white">
+      <div className="container px-4">
+        <div className="max-w-4xl mx-auto text-center">
 
-      <div className="container relative pt-4 md:pt-10 pb-20 px-4">
-        
-        {/* TOP BANNER: Full Width on Mobile, Auto Height No Crop */}
-        <div className="-mx-4 md:mx-auto md:max-w-4xl mb-6 overflow-hidden md:rounded-2xl shadow-2xl border-b md:border border-white/10">
-            <img 
-                src="/banner-for-above-the-Heading.jpeg" 
-                alt="Workshop Banner" 
-                className="w-full h-auto block"
-            />
-        </div>
+          <h2 className="text-2xl md:text-4xl font-black mb-5 leading-tight tracking-tight">
+            Yeh Session Un Logon Ke Liye Hai Jo{' '}
+            <span className="text-[#00a8e8]">Clarity Aur Structure</span> Ke Saath Seekhna Chahte Hain
+          </h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+          <p className="text-sm md:text-lg text-white/70 max-w-2xl mx-auto mb-10 leading-relaxed font-bold">
+            Agar Aap Concepts Ko Clear Aur Structured Tareeke Se Samajhna Chahte Ho, Aur Learning Ko Bina Pressure Lena Chahte Ho, Toh Yeh Session Aapke Liye Hai.
+          </p>
 
-          {/* 1. HEADLINES & BIG OFFER (Enhanced for Mobile) */}
-          <div className="order-1 text-left space-y-6">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight">
-              Crypto Ko Lekar Jo Confusion Hai, <br />
-              <span className="text-[#facc15]">2 Ghante Mein Clarity Milegi</span>
-            </h1>
+          {/* CTA CARD - DESIGN UNCHANGED */}
+          <div className="bg-white rounded-2xl p-6 md:p-10 shadow-2xl text-[#00171f] border-t-4 border-[#00a8e8]">
+            
+            {/* OFFER BADGE */}
+            <div className="flex justify-center mb-6">
+               <span className="bg-red-50 text-red-600 text-[10px] font-black px-3 py-1 rounded-full border border-red-200 uppercase tracking-widest flex items-center gap-1 animate-pulse">
+                 <Zap className="h-3 w-3 fill-current" /> Sirf 7 Din Baaki
+               </span>
+            </div>
 
-            {/* HIGH IMPACT OFFER BOX */}
-            <div className="bg-white/5 border-l-4 border-yellow-400 p-5 rounded-r-2xl backdrop-blur-sm w-full md:inline-block">
-              <div className="flex items-center gap-2 mb-2 text-xs font-black uppercase tracking-widest">
-                <span className="bg-red-600 px-2 py-0.5 rounded animate-pulse">Flash Sale</span>
-                <span className="text-yellow-400">95% Discount Activated</span>
+            {/* SESSION DETAILS */}
+            <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-10 mb-8 font-black text-[#003459]">
+              <div className="flex items-center gap-2">
+                <Calendar className="h-5 w-5 text-[#00a8e8]" />
+                <span className="text-base">Reserve Your Seat Now</span>
               </div>
-              <p className="text-4xl md:text-5xl font-black flex items-baseline gap-3">
-                <span className="line-through opacity-40 text-2xl font-medium">₹199</span> 
-                Aaj Sirf <span className="text-[#facc15] drop-shadow-[0_0_12px_rgba(250,204,21,0.5)] animate-soft-blink">₹9</span>
-              </p>
-              <p className="text-sm md:text-base text-white/80 font-bold mt-2 flex items-center gap-2 uppercase tracking-tight">
-                <Zap className="h-4 w-4 text-yellow-400 fill-current" />
-                "Yeh ₹9 Price Sirf 7 Din Ke Liye Valid Hai — Uske Baad ₹199 Ho Jaayega"
+              <div className="hidden md:block w-px h-4 bg-gray-200" />
+              <div className="flex items-center gap-2">
+                <Clock className="h-5 w-5 text-[#00a8e8]" />
+                <span className="text-base">2 Hours Live Learning</span>
+              </div>
+            </div>
+
+            {/* OFFER PRICING */}
+            <div className="mb-6">
+              <p className="text-3xl md:text-5xl font-black tracking-tight">
+                <span className="line-through opacity-30 text-xl md:text-2xl font-bold">₹199</span> 
+                <span className="ml-3">Aaj Sirf <span className="text-red-600">₹9/-</span></span>
               </p>
             </div>
 
-            <p className="text-[#00a8e8] text-xl md:text-2xl block font-black tracking-wide">
-              Hindi Mein, Step By Step, Bina Hype Ke.
+            <p className="text-sm md:text-base text-gray-500 italic mb-8 font-black">
+              "Chai Se Bhi Sasta — ₹199 Sirf ₹9, Lekin Sirf 7 Din Tak!"
             </p>
 
-            <div className="grid grid-cols-2 gap-3 max-w-md w-full">
-                {[
-                { icon: Calendar, label: 'Date', value: sheetData.date },
-                { icon: Clock, label: 'Time', value: sheetData.time },
-                { icon: Globe, label: 'Language', value: 'Hindi' },
-                { icon: Video, label: 'Mode', value: 'Online (Live)' },
-                ].map((item, i) => (
-                <div key={i} className="bg-white rounded-xl p-3 flex items-center gap-3 text-black border-b-4 border-gray-200">
-                    <item.icon className="h-5 w-5 text-[#007ea7] shrink-0" />
-                    <div>
-                    <p className="text-[10px] text-gray-500 font-bold uppercase">{item.label}</p>
-                    <p className="font-black text-sm">{item.value}</p>
-                    </div>
+            {/* BUTTON */}
+            <div className="flex justify-center">
+              <Button
+                size="lg"
+                onClick={scrollToForm}
+                className="group w-full md:w-auto h-auto bg-[#00a8e8] hover:bg-[#003459] text-white font-bold px-6 py-5 md:px-12 md:py-4 rounded-xl transition-all shadow-md hover:shadow-xl"
+              >
+                <div className="flex items-center justify-center gap-3">
+                  <div className="flex flex-col md:flex-row items-center leading-tight md:leading-normal">
+                    <span className="text-xl md:text-2xl font-black">
+                      Pay Only ₹9/-
+                    </span>
+                    <span className="text-xs md:text-lg font-bold md:ml-2">
+                      & Seat Claim Karein
+                    </span>
+                  </div>
+                  <ArrowRight className="h-6 w-6 flex-shrink-0 transition-transform duration-300 group-hover:translate-x-2" />
                 </div>
-                ))}
+              </Button>
             </div>
-          </div>
 
-          {/* 3. STICKY FORM */}
-          <div className="order-2 lg:col-start-2 lg:row-span-3 sticky top-10 w-full max-w-md ml-auto mt-4 lg:mt-0">
-            <div className="bg-white rounded-3xl shadow-[0_0_50px_rgba(0,126,167,0.2)] text-[#00171f] border-t-[6px] border-[#007ea7] overflow-hidden">
+            {/* URGENCY & TRUST FOOTER */}
+            <div className="mt-8">
+              <p className="text-xs md:text-sm font-black text-[#003459] mb-6 tracking-tight">
+                Seats Are Limited To Keep The Session Interactive. 
+                <span className="block text-red-600 mt-1 uppercase tracking-widest text-[10px]">Registration Closes Once Full</span>
+              </p>
               
-              <div className="w-full border-b border-gray-100">
-                  <img 
-                      src="/banner-for-above-form.jpeg" 
-                      alt="Register Offer" 
-                      className="w-full h-auto object-cover"
-                  />
-              </div>
-
-              <div className="p-6 md:p-8">
-                <div className="flex justify-center mb-2">
-                    <span className="bg-red-50 text-red-600 text-[10px] font-black px-3 py-1 rounded-full border border-red-200 uppercase tracking-widest flex items-center gap-1">
-                    <Zap className="h-3 w-3 fill-current" /> Sirf 7 Din Baaki
-                    </span>
+              <div className="pt-6 border-t border-gray-100 grid grid-cols-2 md:grid-cols-4 gap-4 opacity-40">
+                <div className="flex items-center justify-center gap-1.5 text-center">
+                  <ShieldCheck className="h-4 w-4 shrink-0" />
+                  <span className="text-[10px] font-bold uppercase tracking-widest">Live Session</span>
                 </div>
-
-                <h3 className="text-xl md:text-2xl font-black text-center mb-1 leading-tight tracking-tight">
-                    <span className="line-through opacity-30 text-lg font-bold">₹199</span> Sirf ₹9 Mein Register Karein
-                </h3>
-                
-                <p className="text-[12px] text-center text-[#007ea7] font-black mb-6 uppercase tracking-tight">
-                    "₹199 Ki Clarity, ₹9 Mein — Aur Sirf 7 Din Ke Liye"
-                </p>
-
-                <div className="flex flex-col items-center mb-6">
-                    <p className="text-[10px] font-bold text-gray-400 uppercase mb-1">Offer Ends In:</p>
-                    <MiniTimer initialSeconds={900} />
+                <div className="flex items-center justify-center gap-1.5 text-center">
+                  <BookOpen className="h-4 w-4 shrink-0" />
+                  <span className="text-[10px] font-bold uppercase tracking-widest">Hindi Language</span>
                 </div>
-
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <input required placeholder="Full Name" className="w-full border-2 border-gray-100 rounded-xl px-4 py-3 font-bold focus:border-[#007ea7] outline-none" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
-                    <input required type="email" placeholder="Email Address" className="w-full border-2 border-gray-100 rounded-xl px-4 py-3 font-bold focus:border-[#007ea7] outline-none" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
-                    <input required type="tel" placeholder="Phone Number" maxLength={10} className="w-full border-2 border-gray-100 rounded-xl px-4 py-3 font-bold focus:border-[#007ea7] outline-none" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value.replace(/\D/g, '') })} />
-                    <input required placeholder="City" className="w-full border-2 border-gray-100 rounded-xl px-4 py-3 font-bold focus:border-[#007ea7] outline-none" value={formData.city} onChange={(e) => setFormData({ ...formData, city: e.target.value })} />
-                    
-                    <label className="flex items-start gap-3 bg-[#f0f9ff] border-2 border-[#00a8e8]/30 rounded-xl p-3 cursor-pointer hover:bg-[#e0f4ff] transition">
-                    <input type="checkbox" checked={addEbook} onChange={(e) => setAddEbook(e.target.checked)} className="mt-1 h-5 w-5 accent-[#007ea7]" />
-                    <span className="text-sm font-black leading-tight">
-                        <span className="line-through opacity-40 font-bold">₹199</span> Yes! Add 3 Learning Ebooks For Just ₹99/- <br/>
-                        <span className="text-[10px] text-[#007ea7] uppercase italic font-bold">7 Din Wali Offer Ke Saath</span>
-                    </span>
-                    </label>
-
-                    <div className="bg-red-50 rounded-lg py-2 px-1">
-                    <p className="text-[11px] text-red-700 text-center font-black leading-relaxed italic px-2">
-                        🚨 Chai Se Bhi Sasta — ₹199 Sirf ₹9, Lekin Sirf 7 Din Tak!
-                    </p>
-                    </div>
-
-                    <button type="submit" disabled={isSubmitting} className="w-full font-black py-4 rounded-2xl text-xl transition shadow-xl uppercase bg-[#007ea7] text-white hover:bg-[#00a8e8] active:scale-95">
-                    {isSubmitting ? 'Processing...' : addEbook ? 'Pay ₹99 & Claim Seat' : 'Pay ₹9 & Claim Seat'}
-                    </button>
-                </form>
+                <div className="flex items-center justify-center gap-1.5 text-center">
+                  <ShieldCheck className="h-4 w-4 shrink-0" />
+                  <span className="text-[10px] font-bold uppercase tracking-widest">Structured</span>
+                </div>
+                <div className="flex items-center justify-center gap-1.5 text-center">
+                  <BookOpen className="h-4 w-4 shrink-0" />
+                  <span className="text-[10px] font-bold uppercase tracking-widest">Educational</span>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* 4. NOT FOR EVERYONE SECTION */}
-          <div className="order-3 bg-white/5 border-2 border-white/10 rounded-2xl p-6 max-w-lg w-full">
-            <h3 className="text-base md:text-lg font-black text-amber-400 uppercase mb-4 tracking-tighter flex items-center gap-2 border-b border-white/10 pb-2">
-              <AlertTriangle className="h-5 w-5 fill-current" /> This Masterclass Is Not For Everyone
-            </h3>
-            <ul className="space-y-3">
-              {["Looking For Quick Profit Tips", "Expecting Trading Signals", "Want Overnight Success", "Prefer Shortcuts Over Understanding"].map((item, index) => (
-                <li key={index} className="flex items-start gap-3 text-white/80 text-sm font-bold">
-                  <X className="h-5 w-5 text-red-500 shrink-0 mt-0.5" strokeWidth={4} />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
           </div>
-
         </div>
       </div>
     </section>
