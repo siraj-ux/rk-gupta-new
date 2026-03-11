@@ -56,7 +56,7 @@ export const StickyMobileCTA = ({ onCTAClick }: StickyMobileCTAProps) => {
                 className="w-full bg-[#003459] hover:bg-[#00171f] text-white flex items-center justify-between px-4 h-12 rounded-xl shadow-lg transition-transform active:scale-95"
               >
                 <div className="flex flex-col items-start leading-tight">
-                  <span className="text-[10px] opacity-80 font-bold">Register @ Only ₹9/-</span>
+                  <span className="text-[10px] opacity-80 font-bold"></span>
                   <span className="text-[13px] font-black tracking-tight">
                     Pay <span className="line-through opacity-60 decoration-1">Rs 199</span> Rs 9 Abhi Book Kare
                   </span>
