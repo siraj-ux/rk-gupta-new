@@ -57,7 +57,13 @@ export const HeroSection = () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
     const finalBaseUrl = addEbook ? EBOOKS_RAZORPAY_URL : REGISTRATION_RAZORPAY_URL;
-    window.location.href = `${finalBaseUrl}?${new URLSearchParams(formData).toString()}`;
+    
+    const queryParams = new URLSearchParams({
+        ...formData,
+        ...utmParams
+    }).toString();
+
+    window.location.href = `${finalBaseUrl}?${queryParams}`;
   };
 
   return (
@@ -65,22 +71,20 @@ export const HeroSection = () => {
       <style dangerouslySetInnerHTML={{ __html: `@keyframes soft-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } } .animate-soft-blink { animation: soft-blink 1.5s infinite; }`}} />
       <div className="absolute inset-0 bg-cover bg-center opacity-10" style={{ backgroundImage: "url('/bg.webp')" }} />
 
-      <div className="container relative pt-2 md:pt-6 pb-20 px-4">
+      <div className="container relative pt-2 md:pt-6 pb-20 px-4 mx-auto">
         
-        {/* BANNER 1: TOP OF HERO SECTION (FIXED FOR NO CROP) */}
-        {/* Mobile: Full edge-to-edge width (-mx-4) */}
-        {/* Desktop: Centered and width-limited (md:max-w-4xl mx-auto) to effectively reduce height */}
+        {/* Banner 1: Top Of Hero Section */}
         <div className="-mx-4 md:mx-auto md:max-w-4xl mb-6 overflow-hidden md:rounded-2xl shadow-2xl border-b md:border border-white/10">
             <img 
                 src="/banner-for-above-the-Heading.jpeg" 
                 alt="Workshop Banner" 
-                className="w-full h-auto block" // h-auto ensures NO CROPPING
+                className="w-full h-auto block" 
             />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
 
-          {/* 1. HEADLINES */}
+          {/* 1. Headlines */}
           <div className="order-1 text-left space-y-6">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight">
               Crypto Ko Lekar Jo Confusion Hai, <br />
@@ -88,7 +92,7 @@ export const HeroSection = () => {
             </h1>
 
             <div className="bg-white/5 border-l-4 border-yellow-400 p-4 rounded-r-xl inline-block">
-              <div className="flex items-center gap-2 mb-1 text-xs font-black uppercase tracking-widest">
+              <div className="flex items-center gap-2 mb-1 text-xs font-black tracking-widest">
                 <span className="bg-red-600 px-2 py-0.5 rounded animate-pulse">Flash Sale</span>
                 <span className="text-yellow-400">95% Discount Activated</span>
               </div>
@@ -115,7 +119,7 @@ export const HeroSection = () => {
                 <div key={i} className="bg-white rounded-xl p-3 flex items-center gap-3 text-black border-b-4 border-gray-200">
                     <item.icon className="h-5 w-5 text-[#007ea7] shrink-0" />
                     <div>
-                    <p className="text-[10px] text-gray-500 font-bold uppercase">{item.label}</p>
+                    <p className="text-[10px] text-gray-500 font-bold">{item.label}</p>
                     <p className="font-black text-sm">{item.value}</p>
                     </div>
                 </div>
@@ -123,21 +127,21 @@ export const HeroSection = () => {
             </div>
           </div>
 
-          {/* 2. STICKY FORM */}
+          {/* 2. Sticky Form */}
           <div className="order-2 lg:col-start-2 lg:row-span-3 sticky top-10 w-full max-w-md ml-auto">
-            <div className="bg-white rounded-3xl shadow-[0_0_50px_rgba(0,126,167,0.2)] text-[#00171f] border-t-[6px] border-[#007ea7] overflow-hidden">
+            <div className="bg-white rounded-3xl shadow-[0_0_50px_rgba(0,126,167,0.2)] text-[#00171f] border-t-[6px] border-[#007ea7] overflow-hidden" id="register" style={{ scrollMarginTop: '100px' }}>
               
               <div className="w-full border-b border-gray-100">
                   <img 
                       src="/banner-for-above-form.jpeg" 
                       alt="Register Offer" 
-                      className="w-full h-auto object-cover" // object-cover is okay here as it's a fixed-width card
+                      className="w-full h-auto object-cover" 
                   />
               </div>
 
               <div className="p-6 md:p-8">
                 <div className="flex justify-center mb-2">
-                    <span className="bg-red-50 text-red-600 text-[10px] font-black px-3 py-1 rounded-full border border-red-200 uppercase tracking-widest flex items-center gap-1">
+                    <span className="bg-red-50 text-red-600 text-[10px] font-black px-3 py-1 rounded-full border border-red-200 tracking-widest flex items-center gap-1">
                     <Zap className="h-3 w-3 fill-current" /> Sirf 7 Din Baaki
                     </span>
                 </div>
@@ -146,7 +150,7 @@ export const HeroSection = () => {
                     <span className="line-through opacity-30 text-lg font-bold">₹199</span> Sirf ₹9 Mein Register Karein
                 </h3>
                 
-                <p className="text-[12px] text-center text-[#007ea7] font-black mb-6 uppercase tracking-tight">
+                <p className="text-[12px] text-center text-[#007ea7] font-black mb-6 tracking-tight">
                     "₹199 Ki Clarity, ₹9 Mein — Aur Sirf 7 Din Ke Liye"
                 </p>
 
@@ -165,27 +169,41 @@ export const HeroSection = () => {
                     <input type="checkbox" checked={addEbook} onChange={(e) => setAddEbook(e.target.checked)} className="mt-1 h-5 w-5 accent-[#007ea7]" />
                     <span className="text-sm font-black leading-tight">
                         <span className="line-through opacity-40 font-bold">₹199</span> Yes! Add 3 Learning Ebooks For Just ₹99/- <br/>
-                        <span className="text-[10px] text-[#007ea7] uppercase italic font-bold">7 Din Wali Offer Ke Saath</span>
+                        <span className="text-[10px] text-[#007ea7] italic font-bold">7 Din Wali Offer Ke Saath</span>
                     </span>
                     </label>
 
                     <div className="bg-red-50 rounded-lg py-2 px-1">
-                    <p className="text-[11px] text-red-700 text-center font-black leading-relaxed italic px-2">
-                        🚨 Chai Se Bhi Sasta — ₹199 Sirf ₹9, Lekin Sirf 7 Din Tak!
+                    <p className="text-[11px] text-red-600 text-center font-black leading-relaxed italic px-2">
+                        Offer Sirf 7 Din Tak Valid Hai.
                     </p>
                     </div>
 
-                    <button type="submit" disabled={isSubmitting} className="w-full font-black py-4 rounded-2xl text-xl transition shadow-xl uppercase bg-[#007ea7] text-white hover:bg-[#00a8e8] active:scale-95">
-                    {isSubmitting ? 'Processing...' : addEbook ? 'Pay ₹99 & Claim Seat' : 'Pay ₹9 & Claim Seat'}
+                    <button 
+                      type="submit" 
+                      disabled={isSubmitting} 
+                      className="w-full font-black py-4 rounded-2xl text-base md:text-xl transition shadow-xl bg-[#007ea7] text-white hover:bg-[#00a8e8] active:scale-95 flex items-center justify-center gap-3"
+                    >
+                      {isSubmitting ? (
+                        'Processing...'
+                      ) : addEbook ? (
+                        <>
+                          Pay <span className="line-through opacity-70">₹199</span> ₹99 Abhi Book Kare
+                        </>
+                      ) : (
+                        <>
+                          Pay <span className="line-through opacity-70">₹199</span> ₹9 Abhi Book Kare
+                        </>
+                      )}
                     </button>
                 </form>
               </div>
             </div>
           </div>
 
-          {/* 3. NOT FOR EVERYONE SECTION */}
+          {/* 3. Not For Everyone Section */}
           <div className="order-3 bg-white/5 border-2 border-white/10 rounded-2xl p-6 max-w-lg w-full">
-            <h3 className="text-base md:text-lg font-black text-amber-400 uppercase mb-4 tracking-tighter flex items-center gap-2 border-b border-white/10 pb-2">
+            <h3 className="text-base md:text-lg font-black text-amber-400 mb-4 tracking-tighter flex items-center gap-2 border-b border-white/10 pb-2">
               <AlertTriangle className="h-5 w-5 fill-current" /> This Masterclass Is Not For Everyone
             </h3>
             <ul className="space-y-3">

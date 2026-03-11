@@ -26,7 +26,6 @@ export const FinalCTASection = ({ onCTAClick }: FinalCTASectionProps) => {
   };
 
   return (
-    /* ADDED LARGE VERTICAL PADDING (py-24 md:py-36) */
     <section className="py-24 md:py-36 bg-black text-white">
       <div className="container px-4">
         <div className="max-w-4xl mx-auto text-center">
@@ -40,7 +39,6 @@ export const FinalCTASection = ({ onCTAClick }: FinalCTASectionProps) => {
             Agar Aap Concepts Ko Clear Aur Structured Tareeke Se Samajhna Chahte Ho, Aur Learning Ko Bina Pressure Lena Chahte Ho, Toh Yeh Session Aapke Liye Hai.
           </p>
 
-          {/* CTA CARD - DESIGN UNCHANGED */}
           <div className="bg-white rounded-2xl p-6 md:p-10 shadow-2xl text-[#00171f] border-t-4 border-[#00a8e8]">
             
             {/* OFFER BADGE */}
@@ -67,36 +65,31 @@ export const FinalCTASection = ({ onCTAClick }: FinalCTASectionProps) => {
             <div className="mb-6">
               <p className="text-3xl md:text-5xl font-black tracking-tight">
                 <span className="line-through opacity-30 text-xl md:text-2xl font-bold">₹199</span> 
-                <span className="ml-3">Aaj Sirf <span className="text-red-600">₹9/-</span></span>
+                <span className="ml-3">Sirf 7 Din Ka Price at <span className="text-red-600">₹9/-</span></span>
               </p>
             </div>
 
-            <p className="text-sm md:text-base text-gray-500 italic mb-8 font-black">
-              "Chai Se Bhi Sasta — ₹199 Sirf ₹9, Lekin Sirf 7 Din Tak!"
+            {/* Red Urgency Text */}
+            <p className="text-lg md:text-2xl text-red-600 mb-8 max-w-2xl mx-auto leading-relaxed font-black tracking-tight">
+              Offer Sirf 7 Din Tak Valid Hai.
             </p>
 
-            {/* BUTTON */}
+            {/* FIXED BUTTON: Reduced mobile text size and padding to prevent overflow */}
             <div className="flex justify-center">
               <Button
                 size="lg"
                 onClick={scrollToForm}
-                className="group w-full md:w-auto h-auto bg-[#00a8e8] hover:bg-[#003459] text-white font-bold px-6 py-5 md:px-12 md:py-4 rounded-xl transition-all shadow-md hover:shadow-xl"
+                className="group w-full md:w-auto h-auto bg-[#00a8e8] hover:bg-[#003459] text-white font-bold px-4 py-4 md:px-12 md:py-5 rounded-2xl transition-all shadow-md hover:shadow-xl"
               >
-                <div className="flex items-center justify-center gap-3">
-                  <div className="flex flex-col md:flex-row items-center leading-tight md:leading-normal">
-                    <span className="text-xl md:text-2xl font-black">
-                      Pay Only ₹9/-
-                    </span>
-                    <span className="text-xs md:text-lg font-bold md:ml-2">
-                      & Seat Claim Karein
-                    </span>
-                  </div>
-                  <ArrowRight className="h-6 w-6 flex-shrink-0 transition-transform duration-300 group-hover:translate-x-2" />
+                <div className="flex items-center justify-center gap-2 md:gap-3">
+                  <span className="text-[15px] sm:text-xl md:text-2xl font-black leading-tight">
+                    Pay <span className="line-through opacity-70 decoration-1 md:decoration-2">Rs 199</span> Rs 9 Abhi Book Kare
+                  </span>
+                  <ArrowRight className="h-5 w-5 md:h-6 md:w-6 flex-shrink-0 transition-transform duration-300 group-hover:translate-x-2" />
                 </div>
               </Button>
             </div>
 
-            {/* URGENCY & TRUST FOOTER */}
             <div className="mt-8">
               <p className="text-xs md:text-sm font-black text-[#003459] mb-6 tracking-tight">
                 Seats Are Limited To Keep The Session Interactive. 
